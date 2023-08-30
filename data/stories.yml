@@ -1,0 +1,27 @@
+version: "3.1"
+stories:
+  - story: activate restaurant form
+    steps:
+      - intent: request_restaurant
+      - action: restaurant_form
+      - active_loop: restaurant_form
+      - intent: stop
+      - action: utter_ask_continue
+      - intent: affirm
+      - action: restaurant_form
+      - active_loop: null
+      - action: utter_submit
+      - action: utter_slots_values
+      - action: action_reset_slots
+
+  - story: submit form
+    steps:
+      - intent: request_restaurant
+      - action: restaurant_form
+      - active_loop: restaurant_form
+      - intent: stop
+      - action: utter_ask_continue
+      - intent: deny
+      - action: action_deactivate_loop
+      - active_loop: null
+

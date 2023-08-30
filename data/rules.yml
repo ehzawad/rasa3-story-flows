@@ -1,0 +1,50 @@
+version: "3.1"
+rules:
+  - rule: Greet user
+    steps:
+      - intent: greet
+      - action: utter_greet
+
+  - rule: Thank you
+    steps:
+      - intent: thankyou
+      - action: utter_noworries
+
+  - rule: Bot challenge
+    steps:
+      - intent: bot_challenge
+      - action: utter_iamabot
+
+  - rule: Chitchat
+    steps:
+      - intent: chitchat
+      - action: utter_chitchat
+
+  - rule: activate restaurant form
+    steps:
+      - intent: request_restaurant
+      - action: restaurant_form
+      - active_loop: restaurant_form
+
+  - rule: submit form
+    condition:
+    - active_loop: restaurant_form
+    steps:
+      - action: restaurant_form
+      - active_loop: null
+      - slot_was_set:
+        - requested_slot: null
+      - action: utter_submit
+      - action: utter_slots_values
+      - action: action_reset_slots
+ 
+
+  - rule: out-of-scope
+    steps:
+    - intent: out_of_scope
+    - action: utter_out_of_scope
+
+  - rule: Ask the user to rephrase whenever they send a message with low NLU confidence
+    steps:
+    - intent: nlu_fallback
+    - action: utter_please_rephrase
