@@ -1,50 +1,166 @@
-version: "3.1"
+version: "2.0"
 rules:
-  - rule: Greet user
-    steps:
-      - intent: greet
-      - action: utter_greet
 
-  - rule: Thank you
-    steps:
-      - intent: thankyou
-      - action: utter_noworries
+# - rule: Say no_story
+#   steps:
+#   - or:
+#     - intent: campaign
+#     - intent: account_activate
+#   - action: utter_no_story
 
-  - rule: Bot challenge
-    steps:
-      - intent: bot_challenge
-      - action: utter_iamabot
+- rule: handle affirm/deny without any reason
+  condition:
+  - active_loop: null
+  steps:
+  - or:
+    - intent: affirm
+    - intent: deny
+  - action: utter_dependent_intent_response
 
-  - rule: Chitchat
-    steps:
-      - intent: chitchat
-      - action: utter_chitchat
+- rule: handle dependent intent when no other form is active
+  condition:
+  - active_loop: null
+  steps:
+  - intent: inform
+  - action: utter_default
 
-  - rule: activate restaurant form
-    steps:
-      - intent: request_restaurant
-      - action: restaurant_form
-      - active_loop: restaurant_form
+# - rule: handle explain intent if ask without any reason
+#   condition:
+#   - active_loop: null
+#   steps:
+#   - intent: explain
+#   - action: utter_ask_rephrase
 
-  - rule: submit form
-    condition:
-    - active_loop: restaurant_form
-    steps:
-      - action: restaurant_form
-      - active_loop: null
-      - slot_was_set:
-        - requested_slot: null
-      - action: utter_submit
-      - action: utter_slots_values
-      - action: action_reset_slots
- 
+- rule: handle user request for repeat last utter
+  steps:
+  - intent: Repeat
+  - action: Action_Repeat
 
-  - rule: out-of-scope
-    steps:
-    - intent: out_of_scope
-    - action: utter_out_of_scope
+- rule: handle interrupt by user
+  steps:
+  - intent: interrupt
+  - action: action_interrupt
 
-  - rule: Ask the user to rephrase whenever they send a message with low NLU confidence
-    steps:
-    - intent: nlu_fallback
-    - action: utter_please_rephrase
+- rule: Namzari_status rules
+  condition:
+  - active_loop: null
+  steps:
+  - intent: Namzari_status
+  - action: action_reset_NamzariStatusInitials
+  - action: Namzari_Status_Form
+  - active_loop: Namzari_Status_Form
+
+# - rule: File a Complain rules
+#   condition:
+#   - active_loop: null
+#   steps:
+#   - intent: Complain
+#   - action: action_reset_ComplainInfo_Initials
+#   - action: Common_Form
+#   - active_loop: Common_Form
+  
+# - rule: BankingQuery response
+#   steps:
+#   - intent: BankingQuery
+#   - action: utter_AT
+
+- rule: HELP topic
+  condition:
+  - active_loop: null
+  steps:
+  - intent: help
+  - action: utter_help
+
+- rule: Say goodbye anytime the user says goodbye
+  steps:
+  - intent: goodbye
+  - action: utter_goodbye
+
+- rule: Ask the user to rephrase whenever they send a message with low NLU confidence
+  steps:
+  - intent: nlu_fallback
+  - action: utter_default
+
+- rule: answer out of scope
+  steps:
+  - intent: out_of_scope
+  - action: Action_out_of_scope
+
+- rule: Disha_Name_Meanign
+  steps:
+  - intent: Name_meaning
+  - action: utter_Disha
+
+# - rule: Bank Location
+#   steps:
+#   - intent: Bank_and_ATM_Location
+#   - action: action_bank_location
+
+- rule: Agent Transfer
+  steps:
+    - intent: agent_transfer
+    - action: utter_AT
+    - action: action_deactivate_loop
+    - active_loop: null
+    - slot_was_set:
+      - requested_slot: null
+
+- rule: Confirm that the bot is not a human
+  steps:
+  - intent: check_human
+  - action: utter_bot
+
+- rule: App Download Process
+  steps:
+    - intent: App_Download
+    - action: utter_App_Download
+
+- rule: Payment Process
+  steps:
+    - intent: DigitalPayment
+    - action: action_Payment
+
+- rule: Mobile Number Change request
+  steps:
+    - intent: MobileNumberChanges
+    - action: utter_AT
+
+- rule: Land Tax Registration
+  steps:
+    - intent: LandTax_Registration
+    - action: Action_Land_Tax
+
+- rule: Apply for Namzari
+  steps:
+    - intent: ApplyNamzari
+    - action: action_NamzariApplication
+
+- rule: Required for Namzari application
+  steps:
+    - intent: NamzariDocuments
+    - action: utter_NamzariDocuments
+
+- rule: Fee for Namzari
+  steps:
+    - intent: NamzariFee
+    - action: action_NamzariFee
+
+- rule: Namzari Time Duration
+  steps:
+    - intent: NamzariTimes
+    - action: action_NamzariTime
+
+- rule: Khotian Application process
+  steps:
+    - intent: Khotian_Appication
+    - action: action_Khotian_Appication
+
+- rule: Mouja Application process
+  steps:
+    - intent: Mouja_Appication
+    - action: utter_Mouja_Appication
+
+- rule: Thank You
+  steps:
+  - intent: thankyou
+  - action: utter_Thanks_new_response

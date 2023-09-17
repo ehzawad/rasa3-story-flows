@@ -1,27 +1,201 @@
-version: "3.1"
+version: "2.0"
+
 stories:
-  - story: activate restaurant form
-    steps:
-      - intent: request_restaurant
-      - action: restaurant_form
-      - active_loop: restaurant_form
-      - intent: stop
-      - action: utter_ask_continue
-      - intent: affirm
-      - action: restaurant_form
-      - active_loop: null
-      - action: utter_submit
-      - action: utter_slots_values
-      - action: action_reset_slots
 
-  - story: submit form
-    steps:
-      - intent: request_restaurant
-      - action: restaurant_form
-      - active_loop: restaurant_form
-      - intent: stop
-      - action: utter_ask_continue
-      - intent: deny
-      - action: action_deactivate_loop
-      - active_loop: null
+- story: greet
+  steps:
+  - intent: greet
+  - action: action_greet
 
+- story: help story
+  steps:
+  - intent: help
+  - action: utter_help
+
+- story: Information Correction story
+  steps:
+  - intent: Information_Correction
+  - action: action_Information_Correction
+
+- story: Land Tax related Story
+  steps:
+  - intent: Land_Tax
+  - action: action_Land_TaxProcess
+
+- story: amount of land story
+  steps:
+  - intent: How_much_Land_I_have
+  - action: action_TotalLand
+
+- story: Khotian and Namjari Online service
+  steps:
+  - intent: Online_KhotianANDNamjari
+  - action: action_Online_KhotianANDNamjari
+
+- story: Namzari Information
+  steps:
+  - intent: Namzari_Information
+  - action: action_Namzari_Info
+
+- story: Story of Namjari Cancelation
+  steps:
+  - intent: Namjari_Cancel
+  - action: action_NamzariCancel
+
+
+- story: Holding Number related Info
+  steps:
+  - intent: Get_Holding_Number
+  - action: action_HoldingNumber
+
+- story: Khotian Services story
+  steps:
+  - intent: Khotian_Services
+  - action: utter_Khotian_Services
+
+- story: Certified Khotian Info
+  steps:
+  - intent: CertifiedKhotianCopy
+  - action: action_CertifiedKhotian
+
+- story: AssetsAS_inheritor story
+  steps:
+  - intent: AssetsAS_inheritor
+  - action: action_AssetsAS_inheritor_response
+
+- story: Land Maps stories
+  steps:
+  - intent: LandMaps
+  - action: action_LandMaps
+
+- story: Thank You
+  steps:
+  - intent: thankyou
+  - action: utter_Thanks_new_response
+
+- story: handle interrupt by user
+  steps:
+  - intent: interrupt
+  - action: action_interrupt
+
+- story: Land related FAQ
+  steps:
+  - intent: FAQ_LandQueries
+  - action: Action_FAQ_LandQueries
+
+- story: Namzari_Status Story
+  steps:
+  - intent: Namzari_status
+  - action: action_reset_NamzariStatusInitials
+  - action: Namzari_Status_Form
+  - active_loop: Namzari_Status_Form
+  - slot_was_set:
+    - requested_slot: DivisionName
+  - slot_was_set:
+    - requested_slot: ApplicationNumber
+  - active_loop: null
+  - action: action__NamzariStatus_Response
+
+
+- story: noksha or Map fee
+  steps:
+  - intent: NokshaORMapFee
+  - action: action_nokshaORmapFee
+
+# - story: online noksha or map status check
+#   steps:
+#   - intent: OnlineNokshaOrMapStatusCheck
+#   - action: action_onlineNokshaORmapStatusCheck
+
+- story: Joriper Noksha Map CSSRSBRS
+  steps:
+  - intent: JoriperNokshaMapCSSSRSBRS
+  - action: action_JoriperNokshaMapCSSSRSBRS
+
+- story: do I need Namjari
+  steps:
+  - intent: DoIneedNamjari
+  - action: action_doIneedNamjari
+
+- story: khajna of a dead person
+  steps:
+  - intent: KhajnaOfADeadPerson
+  - action: action_KhajnaOfADeadPerson
+
+- story: why should I pay land tax
+  steps:
+  - intent: WhyShouldIPayLandTax
+  - action: action_WhyShouldIPayLandTax
+
+- story: do I need to go to land office 
+  steps:
+  - intent: doIneedToGoLandOffice
+  - action: action_doIneedToGoLandOffice
+
+- story: tax over than the usual story
+  steps:
+  - intent: taxOverThanTheUsual
+  - action: action_taxOverThanTheUsual
+
+- story: khajna waived story
+  steps:
+  - intent: KhajnaWaived
+  - action: action_KhajnaWaived
+
+- story: noksha Application story
+  steps:
+  - intent: NokshaApplicationState
+  - action: action_nokshaApplicationState
+
+- story: namzari information
+  steps:
+  - intent: Namzari_Information
+  - action: Action_Namzari_Information
+
+
+- story: Namjari Status Story 2
+  steps:
+  - intent: Namzari_status
+  - action: action_reset_NamzariStatusInitials
+  - slot_was_set:
+    - ApplicationNumber: null
+  - slot_was_set:
+    - ApplicationNumber_confirm: null
+  - slot_was_set:
+    - APtext: null
+  - slot_was_set:
+    - DivisionName: null
+  - slot_was_set:
+    - Incomplete_Story: true
+  - action: Namzari_Status_Form
+  - active_loop: Namzari_Status_Form
+  - slot_was_set:
+    - requested_slot: DivisionName
+  - slot_was_set:
+    - DivisionName: Dhaka
+  - slot_was_set:
+    - DivisionName: Dhaka
+  - slot_was_set:
+    - requested_slot: ApplicationNumber
+  - slot_was_set:
+    - ApplicationNumber: '123456'
+  - slot_was_set:
+    - ApplicationNumber: '123456'
+  - slot_was_set:
+    - Found: true
+  - slot_was_set:
+    - APtext: ', থ্রি, ফোর, ফাইভ, সিক্স,'
+  - slot_was_set:
+    - requested_slot: null
+  - active_loop: null
+  - action: action__NamzariStatus_Response
+  - slot_was_set:
+    - DivisionName: null
+  - slot_was_set:
+    - ApplicationNumber: null
+  - slot_was_set:
+    - ApplicationNumber_confirm: null
+  - slot_was_set:
+    - Incomplete_Story: false
+  - slot_was_set:
+    - Found: false
