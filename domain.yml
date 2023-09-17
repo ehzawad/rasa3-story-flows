@@ -1,111 +1,326 @@
-version: "3.1"
-intents:
-  - request_restaurant:
-      use_entities: []
-  - chitchat:
-      use_entities: []
-  - inform
-  - affirm
-  - deny
-  - stop
-  - thankyou
-  - greet
-  - bot_challenge
-  - out_of_scope
-
-entities:
-  - cuisine
-  - number
-  - seating
-
-slots:
-  cuisine:
-    type: text
-    influence_conversation: false
-    mappings:
-    - type: from_entity
-      entity: cuisine
-  num_people:
-    type: float
-    influence_conversation: false
-    mappings:
-    - type: from_entity
-      entity: number
-      # intent: [inform, request_restaurant]
-  outdoor_seating:
-    type: text
-    influence_conversation: false
-    mappings:
-    - type: from_entity
-      entity: seating
-    - type: from_intent
-      intent: affirm
-      value: true
-      conditions:
-      - active_loop: restaurant_form
-        requested_slot: outdoor_seating
-    - type: from_intent
-      intent: deny
-      value: false
-      conditions:
-      - active_loop: restaurant_form
-        requested_slot: outdoor_seating
-
-responses:
-  utter_please_rephrase:
-  - text: I'm sorry, I didn't quite understand that. Could you rephrase?
-  utter_out_of_scope:
-  - text: Sorry, I can't handle that request.
-  utter_ask_cuisine:
-    - text: "What cuisine?"
-  utter_ask_num_people:
-    - text: "How many people?"
-  utter_ask_outdoor_seating:
-    - text: "Do you want to sit outside?"
-  utter_submit:
-  - text: "All done!"
-  utter_slots_values:
-    - text: "I am going to run a restaurant search using the following parameters:\n
-             - cuisine: {cuisine}\n
-             - num_people: {num_people}\n
-             - outdoor_seating: {outdoor_seating}"
-  utter_noworries:
-    - text: "You are welcome :)"
-  utter_chitchat:
-    - text: "chitchat"
-  utter_ask_continue:
-    - text: "Do you want to continue?"
-  utter_wrong_cuisine:
-    - text: "Cuisine type is not in the database, please try again"
-  utter_wrong_num_people:
-    - text: "Number of people should be a positive integer, please try again"
-  utter_wrong_outdoor_seating:
-    - text: "Could not convert input to boolean value, please try again"
-  utter_default:
-    - text: "Sorry, I didn't understand you, please try input something else"
-  utter_greet:
-    - text: "Hello! I am restaurant search assistant! How can I help?"
-  utter_iamabot:
-    - text: "I am a bot, powered by Rasa."
-  utter_restart:
-    - text: "restarted"
-
-actions:
-- validate_restaurant_form
-- action_reset_slots
-- action_initialize_form
-
-forms:
-  restaurant_form:
-    ignored_intents:
-    - chitchat
-    required_slots:
-      - cuisine
-      - num_people
-      - outdoor_seating
-
+version: '2.0'
 session_config:
-  session_expiration_time: 60  # value in minutes
+  session_expiration_time: 60
   carry_over_slots_to_new_session: true
-config:
-  store_entities_as_slots: false
+intents:
+- Khotian_Services
+- Online_KhotianANDNamjari
+- NokshaApplicationState
+- CertifiedKhotianCopy
+- JoriperNokshaMapCSSSRSBRS
+- KhajnaWaived
+- taxOverThanTheUsual
+- doIneedToGoLandOffice
+- WhyShouldIPayLandTax
+- Land_Tax
+- KhajnaOfADeadPerson
+- DoIneedNamjari
+- FAQ_LandQueries
+- OnlineNokshaOrMapStatusCheck
+- NokshaORMapFee
+- inform:
+    use_entities: []
+- Information_Correction
+- Namzari_status
+- NamzariTimes
+- NamzariFee
+- affirm
+- deny
+- thankyou
+- Complain
+- greet
+- Repeat
+- interrupt
+- check_human
+- Name_meaning
+- goodbye
+- agent_transfer
+- out_of_scope
+- explain
+- How_much_Land_I_have
+- LandMaps
+- help
+- App_Download
+- DigitalPayment
+- LandTax_Registration
+- MobileNumberChanges
+- Namzari_Information
+- ApplyNamzari
+- Namjari_Cancel
+- NamzariDocuments
+- Khotian_Appication
+- Mouja_Appication
+- Get_Holding_Number
+- AssetsAS_inheritor
+entities:
+- APtext
+- ApplicationNumber
+- ApplicationNumber_confirm
+- DivisionName
+- Found
+- Incomplete_Story
+- LastIntent
+- NID_Number
+- PIN_Text
+- PIN_confirm
+slots:
+  DivisionName:
+    type: text
+    influence_conversation: false
+  ApplicationNumber:
+    type: any
+    influence_conversation: false
+  ApplicationNumber_confirm:
+    type: text
+    influence_conversation: false
+  NID_Number:
+    type: any
+    influence_conversation: false
+  PIN_Text:
+    type: any
+    influence_conversation: false
+  APtext:
+    type: any
+    influence_conversation: false
+  LastIntent:
+    type: any
+    influence_conversation: false
+  PIN_confirm:
+    type: text
+    influence_conversation: false
+  Found:
+    type: bool
+    initial_value: false
+    influence_conversation: true
+  Incomplete_Story:
+    type: bool
+    initial_value: false
+    influence_conversation: true
+responses:
+  utter_thanks:
+  - text: আপনাকেও ধন্যবাদ
+  utter_Thanks_new_response:
+  - text: আপনাকেও ধন্যবাদ, জমি সংক্রান্ত বিষয়ে, বা ভুমি সম্পর্কিত কিছু জানার জন্য, আমাকে জিজ্ঞাসা করতে পারেন অথবা ভূমি মন্ত্রণালয় এর ওয়েবসাইট এ দেখে নিতে পারেন। আর কোন অভিযোগ জানাতে ভূমি সেবা হেল্পলাইন এক ছয় এক দুই দুই নাম্বারে কল করতে পারেন।
+  utter_out_of_scope:
+  - text: দুঃখিত, আমি অপ্রাসঙ্গিক প্রশ্নের উত্তর দিতে পারছি না।
+  - text: দুঃখিত, আমি আপনার প্রশ্নের উত্তর দিতে পারছি না। অন্য কিছু বলুন
+  - text: আমাকে অপ্রাসঙ্গিক প্রশ্নের উত্তর দিতে নিষেধ করা হয়েছে।
+  - text: দুঃখিত, আমি এই প্রশ্নের উত্তর দিতে পারছি না।
+  - text: দুঃখিত, এটা একটা অপ্রাসঙ্গিক প্রশ্ন।
+  - text: আপনি প্রাসঙ্গিক কিছু জানতে চাইলে বলুন,
+  - text: আপনার ব্যাংক সংক্রান্ত কিছু সহায়তা লাগলে বলুন
+  - text: অপ্রয়োজনীয় কথা না বললে আমার জন্য ভাল হয়
+  utter_ask_rephrase:
+  - text: আমি ঠিক বুঝতে পারিনি। দয়া করে আবার বলুন
+  - text: কথাটি বুঝতে পারিনি। দয়া করে পুনরায় বলুন
+  - text: কথাটি বুঝতে পারিনি। স্পষ্ট করে বলুন
+  - text: দুঃখিত আপনাকে শুনতে পায়নি। আরেকবার বলবেন প্লিজ
+  utter_ok:
+  - text: ঠিক আছে।
+  utter_ask_continue:
+  - text: আপনি কি প্রক্রিয়াটি চলমান করতে চান?
+  utter_ask_continue_form:
+  - text: আপনি কি বর্তমান কাজটি কনটিনিউ করতে চান?
+  utter_default:
+  - text: আমি আপনার বার্তা টা বুঝতে পারি নি। আপনি কি অন্যভাবে বলতে পারবেন প্লিজ?
+  - text: কথাটি বুঝতে পারিনি। দয়া করে পুনরায় বলুন
+  - text: দুঃখিত আপনার কথাটি শুনতে পায়নি
+  - text: পুনরায় বলবেন প্লিজ?
+  - text: আপনার কথাটি বুঝতে পারিনি। পুনরায় বলুন
+  - text: আপনি প্রাসঙ্গিক কিছু বলুন
+  utter_dependent_intent_response:
+  - text: আপনাকে আমি কিভাবে সহায়তা করতে পারি?
+  - text: আপনাকে আমি কি সহায়তা করতে পারি?
+  - text: আমি কি আপনাকে আর কোন সহায়তা করতে পারি?
+  - text: আপনার ভুমি রিলেটেড কোন সহায়তা লাগলে বলুন প্লিজ
+  utter_AT:
+  - text: আপনার কল টি এক জন কাস্টমার কেয়ার প্রতিনিধির কাছে ট্রান্সফার করা হচ্ছে
+  - text: আপনার কল টি একজন প্রতিনিধির কাছে পাঠানো হচ্ছে, একটু অপেক্ষা করুন
+  - text: আপনার কল টি একজন প্রতিনিধির কাছে ট্রান্সফার হচ্ছে, একটু অপেক্ষা করুন
+  utter_greet:
+  - text: হ্যালো, আমি দিশা। আপনার ভার্চুয়াল অ্যাসিস্ট্যান্ট। আমি আপনাকে কিভাবে সহায়তা করতে পারি?
+  - text: হাই, আমি দিশা। আপনার ভার্চুয়াল অ্যাসিস্ট্যান্ট। আমি আপনাকে কিভাবে সহায়তা করতে পারি?
+  - text: হ্যালো স্যার, আমাদের কাস্টমার কেয়ারে কল করার জন্য ধন্যবাদ। আমি দিশা বলছি। আপনাকে কিভাবে সহায়তা করতে পারি।
+  - text: হ্যালো স্যার, আশা করি ভাল আছেন। দিশা বলছি। কিভাবে আপনাকে সহায়তা করতে পারি
+  utter_greet_morning:
+  - text: ভূমি মন্ত্রণালয়ে কল করার জন্য আপনাকে ধন্যবাদ। আপনাকে কিভাবে সহায়তা করতে পারি?
+  utter_greet_afternoon:
+  - text: ভূমি মন্ত্রণালয়ে কল করার জন্য আপনাকে ধন্যবাদ। আপনাকে কিভাবে সহায়তা করতে পারি?
+  utter_greet_evening:
+  - text: ভূমি মন্ত্রণালয়ে কল করার জন্য আপনাকে ধন্যবাদ। আপনাকে কিভাবে সহায়তা করতে পারি?
+  utter_greet_night:
+  - text: ভূমি মন্ত্রণালয়ে কল করার জন্য আপনাকে ধন্যবাদ। আপনাকে কিভাবে সহায়তা করতে পারি?
+  utter_ask_whatelse:
+  - text: আমি আপনাকে কিভাবে সহায়তা করতে পারি?
+  utter_interrupt:
+  - text: জি স্যার, আপনাকে আমি কিভাবে সহায়তা করতে পারি?
+  utter_ask_somethingelse:
+  - text: আমি আর কিভাবে আপনাকে সহায়তা করতে পারি?
+  utter_bot:
+  - text: আমি দিশা। আপনার ভার্চুয়াল অ্যাসিস্ট্যান্ট। স্যার, আমি আর কিভাবে আপনাকে সহায়তা করতে পারি?
+  utter_Disha:
+  - text: দিশা মানে নির্দেশনা দেয়া এবং যেহেতু আমি আমার কাস্টমার দের সঠিক নিরদেশনা দেয় তাই আমার নাম দিশা।
+  - text: দিশা মানে দিকনির্দেশ বা নির্দেশনা দেয়া এবং যেহেতু আমি আমার কাস্টমার দের সঠিক নিরদেশনা দেয় তাই আমার নাম দিশা।
+  - text: আমার নাম দিশা কারণ আমি আমার কাস্টমার দের ব্যাংক সংক্রান্ত সকল ধরনের দিক নিরদেশনা করি।
+  utter_help:
+  - text: আমি আপনাকে আপনার ভূমি সংক্রান্ত সকল ধরনের সাহায্য করার জন্য প্রস্তত আছি।
+  utter_done:
+  - text: Thank you for confirming.
+  utter_goodbye:
+  - text: খোদা হাফেস।
+  utter_no_story:
+  - text: দুঃখিত। আমি এই রিলেটেড কথা বলতে পারছি না, কারণ আমার কাছে এর কোন স্টোরি নেই।
+  utter_invalid_information:
+  - text: দুঃখিত, তথ্যটি সঠিক নয়
+  utter_Invalid_Division:
+  - text: দুঃখিত স্যার, আমাকে আবার আপনার বিভাগের নাম বলুন
+  utter_Invalid_ApplicationNumber:
+  - text: স্যার, আপনার আবেদন নাম্বার ভুল, আরেকবার বলুন
+  utter_Invalid_NID_Number:
+  - text: আমাকে সঠিকভাবে আপনার এন আইডি নাম্বার বলুন
+  utter_ask_ApplicationNumber:
+  - text: আপনার আবেদনের ইউনিক নাম্বার বলুন
+  - text: আপনার আবেদনের নাম্বারটি বলুন
+  utter_ask_ApplicationNumber_confirm:
+  - text: আপনার এপ্লিকেশন নাম্বার এর লাস্ট চার ডিজিট হচ্ছে {APtext} । সেটা ঠিক হলে বলুন, হ্যাঁ ঠিক আছে।
+  - text: আপনার আবেদন নাম্বার এর লাস্ট চার ডিজিট হচ্ছে {APtext} । সেটা কি ঠিক আছে।
+  - text: আপনার এপ্লিকেশন নাম্বার এর লাস্ট চার ডিজিট হচ্ছে {APtext} । ঠিক হলে বলুন, ঠিক আছে।
+  - text: আপনার আবেদন নাম্বার এর লাস্ট চার ডিজিট হচ্ছে {APtext} । ঠিক হলে বলুন, ঠিক আছে।
+  utter_ask_DivisionName:
+  - text: আপনার বিভাগের নাম বলুন
+  - text: কোন বিভাগ থেকে আবেদন করেছিলেন
+  utter_ask_NID_Number:
+  - text: আপনার এন আইডি নাম্বার বলুন
+  - text: আপনার জাতীয় পরিচয় পত্রের নাম্বার বলুন
+  utter_Land_Tax:
+  - text: আপনি কি আপনার ভূমিকর নিবন্ধন, ডিজিটাল পেমেন্ট কিংবা মোবাইল নাম্বার পরিবর্তন করতে চাচ্ছেন।
+  utter_Namzari_Information:
+  - text: আপনি কি নামজারি ই মিউটেশন অনলাইন করতে, বা এই স্পম্পরকিত প্রয়োজনীয় কাগজপত্র সম্পরকে জানতে অথবা ডিজিটাল পেমেন্ট করতে চান।
+  utter_App_Download:
+  - text: প্লে স্টোর হতে ভূমি সেবা অ্যাপ ডাউনলোড করুন।
+  utter_DigitalPayment:
+  - text: মোবাইল ব্যাংকিং এবং ইন্টারনেট ব্যাংকিং এর মাধ্যমে ফি পরিশোধ করা যাবে।
+  utter_LandTax_Registration:
+  - text: ভুমিকর নিবন্ধনের জন্য আপনি এল ডি ট্যাক্স ডট গব ডট বিডি, ভিজিট করুন, নাগরিক কর্নার অপশনে গিয়ে, নাগরিক নিবন্ধন অপশন থেকে নিবন্ধন করুন। ভূমি উন্নয়ন কর পেমেন্ট করার পর দাখিলাটি পেতে তিন কার্য দিবস সময় লাগে।
+  utter_ApplyNamzari:
+  - text: আপনি ই মিউটেশন ল্যান্ড ডট গব ডট বিডি ভিজিট করুন, তারপর নামজারি আবেদনের জন্য ক্লিক করুন, এই অপশন থেকে নামজারি বা মিউটেশন এ ক্লিক করলে আবেদন ফর্ম পেয়ে যাবেন
+  utter_NamzariDocuments:
+  - text: জমির মালিকান রেজিস্টার্ড দলিল বা ওয়ারিশান বা আদালতের আদেশ বা বন্দোবস্ত বা অধিগ্রহন মূলে হস্তান্তরিত বা হাত বদল হলে নামজারি করতে হয়। এর উপর ভিত্তি করে কি কাগজ লাগবে বলা যায়।
+  utter_Khotian_Services:
+  - text: আপনি কি খতিয়ান, পর্চা অনলাইন আবেদন বা মোজা নং অনলাইন আবেদন করতে অথবা ডিজিটাল পেমেন্ট করতে চাচ্ছেন।
+  utter_Khotian_Appication:
+  - text: আপনি ই পরচা ডট গব ডট বিডি ভিজিট করুন, নাগরিক কর্নার অপশনে গিয়ে, খতিয়ান অনুসন্ধান ক্লিক করে খতিয়ান তথ্য দিয়ে ক্লিক করলে একটি ফরম আসবে।
+  utter_Mouja_Appication:
+  - text: আপনি ই পরচা ডট গব ডট বিডি ভিজিট করুন, নাগরিক কর্নার অপশনে থেকে মৌজা নং সংক্রান্ত অপশনটি বাছাই করলে আবেদন ফরমটি পেয়ে যাবেন।
+  utter_KhajnaOfADeadPerson:
+  - text: মৃত ব্যাক্তির জমির খাজনা বা ভূমি উন্নয়ন কর  অনলাইনের মাধ্যমে উত্তরাধিকার বা ওয়ারিশানগণ দিতে পারবেন
+  utter_landIhave:
+  - text: আপনার নামে কতটুকু জমি আছে, এটি ওয়েব সাইট থেকে জানার সুযোগ নেই, দুঃখিত। তবে আপনি আপনার সংরক্ষিত খতিয়ান, পর্চা, পর্চার কপি বা দলিল থেকে জানতে পারবেন। তবে অনলাইনে আপনি আপনার নামের খতিয়ান, পর্চা  বা পর্চা যাঁচাই করতে পারবেন।
+  utter_JoriperNokshaMapCSSSRSBRS:
+  - text: জি পাওয়া যায়,যদি তা আপলোড থাকে, সিএস , এসএ, আরএস, বিআরএস, দিয়ারা মৌজা ম্যাপ পাওয়া যায়, আপনি ই পরচা ডট গব ডট বিডি, এই ওয়েবসাইটে প্রবেশ করে পেতে পারেন
+  utter_NokshaApplicationState:
+  - text: আবেদনকারী আবেদন করার পর যেকোন পর্যায়ে "আবেদনের অবস্থা" বাটনে ক্লিক করে আবেদনের সর্বশেষ অবস্থান দেখতে পারবেন। ই-পর্চা ডট গভ ডট বিডি তে গিয়ে আবেদনের অবস্থা বাটনে ক্লিক করে পেজে গিয়ে আবেদনের রেফারেন্স নম্বর দিয়ে ট্রাক করলে আবেদনের অবস্থা জানতে পারবেন।
+  utter_NokshaORmapFee:
+  - text: অনলাইনে নকশা ফি একশত টাকা মাত্র, এই ফি এর টাকা মোবাইল আ্যাপসের বিকাশ, রকেট, নগদ এর মাধ্যমে পরিশোধ করা যায়। ভূমি অফিসে কোন টাকা দেয়ার প্রয়োজন হয় না।
+  utter_action_doIneedNamjari:
+  - text: যেভাবেই জমি মালিকানা অর্জন করেন নামজারি ছাড়া সরকারের রেকর্ডে জমির মালিক হতে পারবেন না, নিজ নামে খাজনা বা ভূমি উন্নয়ন কর দিতে পারবেন না, জমি বন্ধক রেখে ব্যাংক ঋণ নিতে পারবেন।
+  # utter_onlineNokshaORmapStatusCheck:
+  # - text: ই-পর্চা ডট গভ ডট বিডি তে গিয়ে মৌজা ম্যাপ বাটনে ক্লিক করুন। এর পরে অনুসন্ধানে অনুসন্ধান টেবিলের সঠিক বিভাগ, জেলা,উপজেলা, সার্ভে টাইপ, মৌজা, সিট নং বাছাই করলে আপনার তথ্য দেখতে পাবেন।সিট নম্বরের তালিকায় আপনার কাংখিত নম্বরে ডাবল ক্লিক করলে দেখতে পাবেন।
+actions:
+- Action_FAQ_LandQueries
+- Action_Land_Tax
+- Action_Namzari_Information
+- Action_Repeat
+- Action_out_of_scope
+- action_AssetsAS_inheritor_response
+- action_CertifiedKhotian
+- action_CommonForm_Response
+- action_HoldingNumber
+- action_Information_Correction
+- action_JoriperNokshaMapCSSSRSBRS
+- action_KhajnaOfADeadPerson
+- action_KhajnaWaived
+- action_Khotian_Appication
+- action_LandMaps
+- action_Land_TaxProcess
+- action_NamzariApplication
+- action_NamzariCancel
+- action_NamzariFee
+- action_NamzariTime
+- action_Namzari_Info
+- action_Online_KhotianANDNamjari
+- action_Payment
+- action_TotalLand
+- action_WhyShouldIPayLandTax
+- action__NamzariStatus_Response
+- action_ask_continue
+- action_continue_response
+- action_custom_fallback
+- action_doIneedNamjari
+- action_doIneedToGoLandOffice
+- action_greet
+- action_interrupt
+- action_khotian_Appication
+- action_nokshaApplicationState
+- action_nokshaORmapFee
+# - action_onlineNokshaORmapStatusCheck
+- action_reset_ComplainInfo_Initials
+- action_reset_NamzariStatusInitials
+- action_reset_all_slots
+- action_taxOverThanTheUsual
+- utter_AT
+- utter_App_Download
+- utter_ApplyNamzari
+- utter_DigitalPayment
+- utter_Disha
+- utter_Invalid_ApplicationNumber
+- utter_Invalid_Division
+- utter_Invalid_NID_Number
+- utter_Khotian_Appication
+- utter_Khotian_Services
+- utter_LandTax_Registration
+- utter_Land_Tax
+- utter_Mouja_Appication
+- utter_NamzariDocuments
+- utter_Namzari_Information
+- utter_Thanks_new_response
+- utter_ask_ApplicationNumber
+- utter_ask_DivisionName
+- utter_ask_NID_Number
+- utter_ask_continue
+- utter_ask_continue_form
+- utter_ask_somethingelse
+- utter_ask_whatelse
+- utter_default
+- utter_dependent_intent_response
+- utter_done
+- utter_goodbye
+- utter_greet
+- utter_help
+- utter_interrupt
+- utter_invalid_information
+- utter_landIhave
+- utter_no_story
+- utter_thanks
+- validate_Common_Form
+- validate_Namzari_Status_Form
+forms:
+  Namzari_Status_Form:
+    required_slots:
+      DivisionName:
+      - entity: DivisionName
+        type: from_entity
+      ApplicationNumber:
+      - entity: ApplicationNumber
+        type: from_entity
+  Common_Form:
+    required_slots:
+      DivisionName:
+      - entity: DivisionName
+        type: from_entity
+      ApplicationNumber:
+      - entity: ApplicationNumber
+        type: from_entity
+      NID_Number:
+      - entity: NID_Number
+        type: from_entity
